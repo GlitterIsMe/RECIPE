@@ -21,6 +21,10 @@ execute_process(COMMAND cat /proc/cpuinfo COMMAND grep avx2 OUTPUT_VARIABLE ENAB
 execute_process(COMMAND cat /proc/cpuinfo COMMAND grep bmi2 OUTPUT_VARIABLE ENABLE_BMI2)
 execute_process(COMMAND cat /proc/cpuinfo COMMAND grep avx512 OUTPUT_VARIABLE ENABLE_AVX512)
 
+if(ENABLE_PERF)
+    add_definitions(-DPERF_AND_COUNT)
+endif()
+
 if(ENABLE_CLWB)
     add_definitions(-DCLWB)
     message(STATUS "Looking for clwb instruction - found")
