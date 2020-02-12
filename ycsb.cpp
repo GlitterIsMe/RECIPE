@@ -820,7 +820,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #ifdef PERF_AND_COUNT
             system("free -h");
             print_event();
-            do_ioctl_call(PERF_EVENT_IOC_RESET);
+            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
+            close_perf_desc();
 #endif
         }
 #ifdef HOT
@@ -887,7 +888,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #ifdef PERF_AND_COUNT
             system("free -h");
             print_event();
-            do_ioctl_call(PERF_EVENT_IOC_RESET);
+            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
+            close_perf_desc();
 #endif
         }
 #endif
@@ -986,7 +988,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #ifdef PERF_AND_COUNT
             system("free -h");
             print_event();
-            do_ioctl_call(PERF_EVENT_IOC_RESET);
+            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
+            close_perf_desc();
 #endif
         }
     } else if (index_type == TYPE_MASSTREE) {
@@ -1041,7 +1044,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #ifdef PERF_AND_COUNT
             system("free -h");
             print_event();
-            do_ioctl_call(PERF_EVENT_IOC_RESET);
+            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
+            close_perf_desc();
 #endif
         }
     } else if (index_type == TYPE_CLHT) {
@@ -1137,7 +1141,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #ifdef PERF_AND_COUNT
             system("free -h");
             print_event();
-            do_ioctl_call(PERF_EVENT_IOC_RESET);
+            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
+            close_perf_desc();
 #endif
         }
         clht_gc_destroy(hashtable);
@@ -1193,7 +1198,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #ifdef PERF_AND_COUNT
             system("free -h");
             print_event();
-            do_ioctl_call(PERF_EVENT_IOC_RESET);
+            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
+            close_perf_desc();
 #endif
         }
     } else if (index_type == TYPE_LEVELHASH) {
@@ -1243,7 +1249,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #ifdef PERF_AND_COUNT
             system("free -h");
             print_event();
-            do_ioctl_call(PERF_EVENT_IOC_RESET);
+            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
+            close_perf_desc();
 #endif
         }
     } else if (index_type == TYPE_CCEH) {
@@ -1293,7 +1300,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #ifdef PERF_AND_COUNT
             system("free -h");
             print_event();
-            do_ioctl_call(PERF_EVENT_IOC_RESET);
+            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
+            close_perf_desc();
 #endif
         }
     } else if (index_type == TYPE_WOART) {
