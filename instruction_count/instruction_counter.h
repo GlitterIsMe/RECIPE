@@ -5,7 +5,10 @@
 #ifndef RECIPE_INSTRUCTION_COUNTER_H
 #define RECIPE_INSTRUCTION_COUNTER_H
 
-unsigned int& count_clflush();
-unsigned int& count_mfence();
+/*unsigned int& count_clflush();
+unsigned int& count_mfence();*/
+
+extern unsigned int count_clflush;
+extern unsigned int count_mfence;
 
 #endif //RECIPE_INSTRUCTION_COUNTER_H

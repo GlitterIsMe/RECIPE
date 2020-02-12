@@ -26,7 +26,7 @@ static inline unsigned long ReadTSC(void) {
 }
 
 inline void mfence(void) {
-    count_mfence()++;
+    count_mfence++;
   asm volatile("mfence":::"memory");
 }
 
@@ -34,7 +34,7 @@ inline void clflush(char* data, size_t len) {
   volatile char *ptr = (char*)((unsigned long)data & (~(kCacheLineSize-1)));
   mfence();
   for (; ptr < data+len; ptr+=kCacheLineSize) {
-      count_clflush()++;
+      count_clflush++;
     unsigned long etcs = ReadTSC() + (unsigned long) (kWriteLatencyInNS*CPU_FREQ_MHZ/1000);
 #ifdef CLFLUSH
     asm volatile("clflush %0" : "+m" (*(volatile char *)ptr));

@@ -661,8 +661,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
     std::string txn_file;
 
 #ifdef PERF_AND_COUNT
-    count_clflush() = 0;
-    count_mfence() = 0;
+    count_clflush = 0;
+    count_mfence = 0;
 #endif
 
     if (ap == UNIFORM) {
@@ -777,8 +777,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush() << "\n";
-            std::cout << "mfence: " << count_mfence() << "\n";
+            std::cout << "clflush: " << count_clflush << "\n";
+            std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
@@ -844,8 +844,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush() << "\n";
-            std::cout << "mfence: " << count_mfence() << "\n";
+            std::cout << "clflush: " << count_clflush << "\n";
+            std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
@@ -923,8 +923,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush() << "\n";
-            std::cout << "mfence: " << count_mfence() << "\n";
+            std::cout << "clflush: " << count_clflush << "\n";
+            std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
@@ -1001,8 +1001,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush() << "\n";
-            std::cout << "mfence: " << count_mfence() << "\n";
+            std::cout << "clflush: " << count_clflush << "\n";
+            std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
@@ -1079,8 +1079,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush() << "\n";
-            std::cout << "mfence: " << count_mfence() << "\n";
+            std::cout << "clflush: " << count_clflush << "\n";
+            std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
@@ -1150,8 +1150,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush() << "\n";
-            std::cout << "mfence: " << count_mfence() << "\n";
+            std::cout << "clflush: " << count_clflush << "\n";
+            std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
@@ -1204,8 +1204,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush() << "\n";
-            std::cout << "mfence: " << count_mfence() << "\n";
+            std::cout << "clflush: " << count_clflush << "\n";
+            std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
@@ -1253,8 +1253,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush() << "\n";
-            std::cout << "mfence: " << count_mfence() << "\n";
+            std::cout << "clflush: " << count_clflush << "\n";
+            std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
@@ -1331,8 +1331,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #endif
     }
 #ifdef PERF_AND_COUNT
-    std::cout << "clflush: " << count_clflush() << "\n";
-    std::cout << "mfence: " << count_mfence() << "\n";
+    std::cout << "clflush: " << count_clflush << "\n";
+    std::cout << "mfence: " << count_mfence << "\n";
 #endif
 }
 
