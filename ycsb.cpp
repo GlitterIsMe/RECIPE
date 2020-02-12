@@ -755,6 +755,7 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 
 #ifdef PERF_AND_COUNT
     system("free -h");
+    system("sync && echo 3 > /proc/sys/vm/drop_caches");
     open_perf_event();
     do_ioctl_call(PERF_EVENT_IOC_RESET);
     do_ioctl_call(PERF_EVENT_IOC_ENABLE);
