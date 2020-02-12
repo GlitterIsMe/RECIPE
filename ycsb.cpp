@@ -781,6 +781,7 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             std::cout << "clflush: " << count_clflush << "\n";
             std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
+            system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
 #endif
@@ -848,6 +849,7 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             std::cout << "clflush: " << count_clflush << "\n";
             std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
+            system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
 #endif
@@ -927,6 +929,7 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             std::cout << "clflush: " << count_clflush << "\n";
             std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
+            system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
 #endif
@@ -1005,6 +1008,7 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             std::cout << "clflush: " << count_clflush << "\n";
             std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
+            system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
 #endif
@@ -1083,6 +1087,7 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             std::cout << "clflush: " << count_clflush << "\n";
             std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
+            system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
 #endif
@@ -1154,6 +1159,7 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             std::cout << "clflush: " << count_clflush << "\n";
             std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
+            system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
 #endif
@@ -1208,6 +1214,7 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             std::cout << "clflush: " << count_clflush << "\n";
             std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
+            system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
 #endif
@@ -1257,6 +1264,7 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             std::cout << "clflush: " << count_clflush << "\n";
             std::cout << "mfence: " << count_mfence << "\n";
             system("free -h");
+            system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
 #endif
