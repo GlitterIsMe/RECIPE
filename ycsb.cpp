@@ -20,6 +20,11 @@ using namespace std;
 #include "clht.h"
 #include "ssmem.h"
 
+#ifdef PERF_AND_COUNT
+#include "instruction_count/instruction_counter.h"
+#include "instruction_count/hw_events.h"
+#endif
+
 #ifdef HOT
 #include <hot/rowex/HOTRowex.hpp>
 #include <idx/contenthelpers/IdentityKeyExtractor.hpp>
@@ -223,8 +228,8 @@ void barrier_cross(barrier_t *b) {
 barrier_t barrier;
 /////////////////////////////////////////////////////////////////////////////////
 
-static uint64_t LOAD_SIZE = 64000000;
-static uint64_t RUN_SIZE = 64000000;
+static uint64_t LOAD_SIZE = 400000000;
+static uint64_t RUN_SIZE = 10000000;
 
 void loadKey(TID tid, Key &key) {
     return ;
@@ -655,6 +660,11 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
     std::string init_file;
     std::string txn_file;
 
+#ifdef PERF_AND_COUNT
+    count_clflush() = 0;
+    count_mfence() = 0;
+#endif
+
     if (ap == UNIFORM) {
         if (kt == RANDINT_KEY && wl == WORKLOAD_A) {
             init_file = "./index-microbench/workloads/loada_unif_int.dat";
@@ -743,6 +753,13 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
     range_complete.store(0);
     range_incomplete.store(0);
 
+#ifdef PERF_AND_COUNT
+    system("free -h");
+    open_perf_event();
+    do_ioctl_call(PERF_EVENT_IOC_RESET);
+    do_ioctl_call(PERF_EVENT_IOC_ENABLE);
+#endif
+
     if (index_type == TYPE_ART) {
         ART_ROWEX::Tree tree(loadKey);
 
@@ -759,6 +776,13 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 
         {
@@ -791,6 +815,11 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: run, %f ,ops/us\n", (RUN_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 #ifdef HOT
     } else if (index_type == TYPE_HOT) {
@@ -814,6 +843,13 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 
         {
@@ -845,6 +881,11 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: run, %f ,ops/us\n", (RUN_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 #endif
     } else if (index_type == TYPE_BWTREE) {
@@ -881,6 +922,13 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 
         {
@@ -931,6 +979,11 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: run, %f ,ops/us\n", (RUN_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
     } else if (index_type == TYPE_MASSTREE) {
         masstree::leafnode *init_root = new masstree::leafnode(0);
@@ -947,6 +1000,13 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 
         {
@@ -973,6 +1033,11 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: run, %f ,ops/us\n", (RUN_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
     } else if (index_type == TYPE_CLHT) {
         clht_t *hashtable = clht_create(512);
@@ -1013,6 +1078,13 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 
         barrier.crossing = 0;
@@ -1056,6 +1128,11 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: run, %f ,ops/us\n", (RUN_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
         clht_gc_destroy(hashtable);
     } else if (index_type == TYPE_FASTFAIR) {
@@ -1072,6 +1149,13 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 
         {
@@ -1099,6 +1183,11 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: run, %f ,ops/us\n", (RUN_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
     } else if (index_type == TYPE_LEVELHASH) {
         Hash *table = new LevelHashing(10);
@@ -1114,6 +1203,13 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 
         {
@@ -1136,6 +1232,11 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: run, %f ,ops/us\n", (RUN_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
     } else if (index_type == TYPE_CCEH) {
         Hash *table = new CCEH(2);
@@ -1151,6 +1252,13 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
 
         {
@@ -1173,6 +1281,11 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: run, %f ,ops/us\n", (RUN_SIZE * 1.0) / duration.count());
+#ifdef PERF_AND_COUNT
+            system("free -h");
+            print_event();
+            do_ioctl_call(PERF_EVENT_IOC_RESET);
+#endif
         }
     } else if (index_type == TYPE_WOART) {
 #ifndef STRING_TYPE
@@ -1217,6 +1330,10 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
         }
 #endif
     }
+#ifdef PERF_AND_COUNT
+    std::cout << "clflush: " << count_clflush() << "\n";
+    std::cout << "mfence: " << count_mfence() << "\n";
+#endif
 }
 
 int main(int argc, char **argv) {

@@ -9,6 +9,9 @@
 #include <mutex>
 #include <atomic>
 #include <assert.h>
+
+#include "../instruction_count/instruction_counter.h"
+
 #ifdef LOCK_INIT
 #include "tbb/concurrent_vector.h"
 #endif
@@ -67,6 +70,7 @@ static inline void fence() {
 }
 
 static inline void mfence() {
+    count_mfence()++;
     asm volatile("mfence":::"memory");
 }
 
@@ -76,6 +80,7 @@ static inline void clflush(char *data, int len, bool fence)
     if (fence)
         mfence();
     for(; ptr<data+len; ptr+=CACHE_LINE_SIZE){
+        count_clflush();
         unsigned long etsc = read_tsc() + (unsigned long)(write_latency*CPU_FREQ_MHZ/1000);
 #ifdef CLFLUSH
         asm volatile("clflush %0" : "+m" (*(volatile char *)ptr));

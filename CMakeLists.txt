@@ -84,6 +84,7 @@ include_directories(third-party/CCEH)
 include_directories(P-Masstree)
 include_directories(P-CLHT/include P-CLHT/external/include)
 include_directories(P-BwTree)
+include_directories(instruction_count)
 
 find_library(JemallocLib jemalloc)
 find_library(TbbLib tbb)
@@ -94,13 +95,15 @@ set(INDEX_FILES P-ART/Tree.cpp third-party/FAST_FAIR/btree.h
     P-HOT/libs/hot/rowex/include/hot/rowex/HOTRowex.hpp third-party/CCEH/src/CCEH_MSB.cpp
     third-party/CCEH/src/Level_hashing.cpp P-BwTree/src/bwtree.cpp
     third-party/WOART/woart.cpp P-CLHT/src/clht_lb_res.c P-CLHT/src/clht_gc.c
-    P-CLHT/external/sspfd/sspfd.c P-CLHT/external/ssmem/src/ssmem.c)
+    P-CLHT/external/sspfd/sspfd.c P-CLHT/external/ssmem/src/ssmem.c
+    instruction_count/instruction_counter.cpp)
 else()
 set(INDEX_FILES P-ART/Tree.cpp third-party/FAST_FAIR/btree.h third-party/CCEH/src/CCEH_MSB.cpp
     third-party/CCEH/src/Level_hashing.cpp P-BwTree/src/bwtree.cpp
     P-BwTree/test/test_suite.cpp third-party/WOART/woart.cpp
     P-CLHT/src/clht_lb_res.c P-CLHT/src/clht_gc.c P-CLHT/external/sspfd/sspfd.c
-    P-CLHT/external/ssmem/src/ssmem.c)
+    P-CLHT/external/ssmem/src/ssmem.c
+    instruction_count/instruction_counter.cpp)
 endif()
 
 add_library(Indexes ${INDEX_FILES})

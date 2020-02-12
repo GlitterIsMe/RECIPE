@@ -6,6 +6,7 @@
 #include "N16.cpp"
 #include "N48.cpp"
 #include "N256.cpp"
+#include "../instruction_count/instruction_counter.h"
 
 namespace ART_ROWEX {
     static unsigned long write_latency_in_ns = 0;
@@ -30,6 +31,7 @@ namespace ART_ROWEX {
 
     inline void N::mfence()
     {
+        count_mfence()++;
         asm volatile("mfence":::"memory");
     }
 
@@ -39,6 +41,7 @@ namespace ART_ROWEX {
         if (front)
             mfence();
         for (; ptr < data+len; ptr += cache_line_size){
+            count_clflush()++;
             unsigned long etsc = read_tsc() +
                 (unsigned long)(write_latency_in_ns * cpu_freq_mhz/1000);
 #ifdef CLFLUSH

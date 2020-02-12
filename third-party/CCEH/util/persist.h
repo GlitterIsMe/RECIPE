@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <stdint.h>
 
+#include "../../../instruction_count/instruction_counter.h"
+
 static uint64_t CPU_FREQ_MHZ = 2100;  // cat /proc/cpuinfo
 #define CAS(_p, _u, _v)  (__atomic_compare_exchange_n (_p, _u, _v, false, __ATOMIC_ACQUIRE, __ATOMIC_ACQUIRE))
 #define kCacheLineSize (64)
@@ -24,6 +26,7 @@ static inline unsigned long ReadTSC(void) {
 }
 
 inline void mfence(void) {
+    count_mfence()++;
   asm volatile("mfence":::"memory");
 }
 
@@ -31,6 +34,7 @@ inline void clflush(char* data, size_t len) {
   volatile char *ptr = (char*)((unsigned long)data & (~(kCacheLineSize-1)));
   mfence();
   for (; ptr < data+len; ptr+=kCacheLineSize) {
+      count_clflush()++;
     unsigned long etcs = ReadTSC() + (unsigned long) (kWriteLatencyInNS*CPU_FREQ_MHZ/1000);
 #ifdef CLFLUSH
     asm volatile("clflush %0" : "+m" (*(volatile char *)ptr));
