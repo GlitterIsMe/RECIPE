@@ -42,6 +42,7 @@ void create_perf_event_attr(struct perf_event_attr *pe, uint64_t id, uint64_t op
 	pe->size = sizeof(struct perf_event_attr);
 	pe->config = (id) | (op_id << 8) | (op_result_id << 16);
 	pe->disabled = 1;
+	pe->inherit = 1;
 	pe->exclude_kernel = 1;
 	pe->exclude_hv = 1;
 
