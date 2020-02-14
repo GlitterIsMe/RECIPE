@@ -661,8 +661,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
     std::string txn_file;
 
 #ifdef PERF_AND_COUNT
-    count_clflush = 0;
-    count_mfence = 0;
+    reset_clflush();
+    reset_mfence();
 #endif
 
     if (ap == UNIFORM) {
@@ -778,8 +778,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush << "\n";
-            std::cout << "mfence: " << count_mfence << "\n";
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
@@ -847,8 +847,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush << "\n";
-            std::cout << "mfence: " << count_mfence << "\n";
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
@@ -928,8 +928,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush << "\n";
-            std::cout << "mfence: " << count_mfence << "\n";
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
@@ -1008,8 +1008,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush << "\n";
-            std::cout << "mfence: " << count_mfence << "\n";
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
@@ -1088,8 +1088,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush << "\n";
-            std::cout << "mfence: " << count_mfence << "\n";
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
@@ -1161,8 +1161,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush << "\n";
-            std::cout << "mfence: " << count_mfence << "\n";
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
@@ -1217,8 +1217,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush << "\n";
-            std::cout << "mfence: " << count_mfence << "\n";
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
@@ -1268,8 +1268,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush << "\n";
-            std::cout << "mfence: " << count_mfence << "\n";
+            std::cout << "clflush: " << count_clflush() << "\n";
+            std::cout << "mfence: " << count_mfence() << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
@@ -1348,8 +1348,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #endif
     }
 #ifdef PERF_AND_COUNT
-    std::cout << "clflush: " << count_clflush << "\n";
-    std::cout << "mfence: " << count_mfence << "\n";
+    std::cout << "clflush: " << count_clflush() << "\n";
+    std::cout << "mfence: " << count_mfence() << "\n";
 #endif
 }
 

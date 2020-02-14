@@ -1,23 +1,33 @@
 //
 // Created by 張藝文 on 2020/2/14.
 //
-#include <pthread.h>
-
+#include <atomic>
 #include "instruction_counter.h"
 
-unsigned int count_clflush;
-unsigned int count_mfence;
-
-pthread_mutex_t mutex;
+std::atomic_ulong clflush;
+std::atomic_ulong mfence;
 
 void add_clflush() {
-    pthread_mutex_lock(&mutex);
-    count_clflush++;
-    pthread_mutex_unlock(&mutex);
+    clflush++;
 }
 
 void add_mfence() {
-    pthread_mutex_lock(&mutex);
-    count_mfence++;
-    pthread_mutex_unlock(&mutex);
+    mfence++;
+}
+
+void reset_clflush(){
+    clflush.store(0, std::memory_order_relaxed);
+}
+
+void reset_mfence(){
+    mfence.store(0, std::memory_order_relaxed);
+}
+
+
+unsigned long count_clflush(){
+    return clflush.load(std::memory_order_relaxed);
+}
+
+unsigned long count_mfence(){
+    return mfence.load(std::memory_order_relaxed);
 }
