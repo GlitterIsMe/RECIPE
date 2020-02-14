@@ -23,7 +23,7 @@ static inline unsigned long read_tsc(void)
 
 inline void mfence()
 {
-    count_mfence++;
+    add_mfence();
     asm volatile("mfence":::"memory");
 }
 
@@ -33,7 +33,7 @@ inline void clflush(char *data, int len)
                   CACHE_LINE_SIZE_ = 64;
     volatile char *ptr = (char *)((unsigned long)data & ~(CACHE_LINE_SIZE_ - 1));
     for (; ptr < data+len; ptr += CACHE_LINE_SIZE_){
-        count_clflush++;
+        add_clflush();
         unsigned long etsc = read_tsc() +
             (unsigned long)(write_latency_in_ns * CPU_FREQ_MHZ_/1000);
 #ifdef CLFLUSH

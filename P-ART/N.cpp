@@ -31,7 +31,7 @@ namespace ART_ROWEX {
 
     inline void N::mfence()
     {
-        count_mfence++;
+        add_mfence();
         asm volatile("mfence":::"memory");
     }
 
@@ -41,7 +41,7 @@ namespace ART_ROWEX {
         if (front)
             mfence();
         for (; ptr < data+len; ptr += cache_line_size){
-            count_clflush++;
+            add_clflush();
             unsigned long etsc = read_tsc() +
                 (unsigned long)(write_latency_in_ns * cpu_freq_mhz/1000);
 #ifdef CLFLUSH

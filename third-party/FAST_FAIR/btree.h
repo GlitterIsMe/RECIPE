@@ -58,7 +58,7 @@ using namespace std;
 
 static inline void mfence()
 {
-    count_mfence++;
+    add_mfence();
     asm volatile("mfence":::"memory");
 }
 
@@ -67,7 +67,7 @@ static inline void clflush(char *data, int len)
     volatile char *ptr = (char *)((unsigned long)data &~(CACHE_LINE_SIZE-1));
     mfence();
     for(; ptr<data+len; ptr+=CACHE_LINE_SIZE){
-        count_clflush++;
+        add_clflush();
         unsigned long etsc = read_tsc() + 
             (unsigned long)(write_latency_in_ns*CPU_FREQ_MHZ/1000);
 #ifdef CLFLUSH
