@@ -104,7 +104,6 @@ set(INDEX_FILES P-ART/Tree.cpp third-party/FAST_FAIR/btree.h
     third-party/CCEH/src/Level_hashing.cpp P-BwTree/src/bwtree.cpp
     third-party/WOART/woart.cpp P-CLHT/src/clht_lb_res.c P-CLHT/src/clht_gc.c
     P-CLHT/external/sspfd/sspfd.c P-CLHT/external/ssmem/src/ssmem.c
-    instruction_count/instruction_counter.c
         )
 else()
 set(INDEX_FILES P-ART/Tree.cpp third-party/FAST_FAIR/btree.h third-party/CCEH/src/CCEH_MSB.cpp
@@ -112,15 +111,15 @@ set(INDEX_FILES P-ART/Tree.cpp third-party/FAST_FAIR/btree.h third-party/CCEH/sr
     P-BwTree/test/test_suite.cpp third-party/WOART/woart.cpp
     P-CLHT/src/clht_lb_res.c P-CLHT/src/clht_gc.c P-CLHT/external/sspfd/sspfd.c
     P-CLHT/external/ssmem/src/ssmem.c
-    instruction_count/instruction_counter.c
         )
 endif()
 
 add_library(Indexes ${INDEX_FILES})
+add_library(Counter instruction_count/instruction_counter.c)
 
 target_link_libraries(Indexes ${TbbLib} ${JemallocLib} ${CMAKE_THREAD_LIBS_INIT} pthread)
 
 set(YCSB_TEST ycsb.cpp)
 add_executable(ycsb ${YCSB_TEST})
 
-target_link_libraries(ycsb Indexes atomic boost_system boost_thread)
+target_link_libraries(ycsb Indexes Counter atomic boost_system boost_thread)
