@@ -117,9 +117,9 @@ endif()
 add_library(Indexes ${INDEX_FILES})
 add_library(Counter instruction_count/instruction_counter.c)
 
-target_link_libraries(Indexes ${TbbLib} ${JemallocLib} ${CMAKE_THREAD_LIBS_INIT} pthread)
+target_link_libraries(Indexes ${TbbLib} ${JemallocLib} ${CMAKE_THREAD_LIBS_INIT} pthread Counter)
 
 set(YCSB_TEST ycsb.cpp)
 add_executable(ycsb ${YCSB_TEST})
 
-target_link_libraries(ycsb Indexes Counter atomic boost_system boost_thread)
+target_link_libraries(ycsb Indexes atomic boost_system boost_thread)
