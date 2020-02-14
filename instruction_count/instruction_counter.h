@@ -10,8 +10,17 @@ unsigned int& count_mfence();*/
 
 extern unsigned int count_clflush;
 extern unsigned int count_mfence;
+pthread_mutex_t mutex;
 
-extern void add_clflush();
-extern void add_mfence();
+extern void add_clflush()
+    pthread_mutex_lock(&mutex);
+    count_clflush++;
+    pthread_mutex_unlock(&mutex);
+}
+extern void add_mfence(){
+    pthread_mutex_lock(&mutex);
+    count_mfence++;
+    pthread_mutex_unlock(&mutex);
+}
 
 #endif //RECIPE_INSTRUCTION_COUNTER_H
