@@ -36,11 +36,10 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include "../../instruction_count/instruction_counter.h"
 #include "clht_lb_res.h"
 
-#include "../../instruction_count/instruction_counter.h"
-#include <pthread.h>
-pthread_mutex_t mutex;
+
 
 //#define CLHTDEBUG
 //#define CRASH_AFTER_SWAP_CLHT
