@@ -19,6 +19,7 @@ using namespace std;
 #include "P-BwTree/src/bwtree.h"
 #include "clht.h"
 #include "ssmem.h"
+#include "clht_lb_res.h"
 
 #ifdef PERF_AND_COUNT
 #include "instruction_count/instruction_counter.h"
@@ -1049,6 +1050,9 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #endif
         }
     } else if (index_type == TYPE_CLHT) {
+        clht_count_clflush = 0;
+        clht_count_mfence = 0;
+
         clht_t *hashtable = clht_create(512);
 
         barrier_init(&barrier, num_thread);
@@ -1088,8 +1092,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
-            std::cout << "clflush: " << count_clflush() << "\n";
-            std::cout << "mfence: " << count_mfence() << "\n";
+            std::cout << "clflush: " << clht_count_clflush << "\n";
+            std::cout << "mfence: " << clht_count_mfence << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
@@ -1143,6 +1147,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_DISABLE);
             close_perf_desc();
+            std::cout << "clflush: " << clht_count_clflush << "\n";
+            std::cout << "mfence: " << clht_count_mfence << "\n";
 #endif
         }
         clht_gc_destroy(hashtable);
