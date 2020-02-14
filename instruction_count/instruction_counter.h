@@ -4,7 +4,7 @@
 
 #ifndef RECIPE_INSTRUCTION_COUNTER_H
 #define RECIPE_INSTRUCTION_COUNTER_H
-
+#include <pthread.h>
 /*unsigned int& count_clflush();
 unsigned int& count_mfence();*/
 
