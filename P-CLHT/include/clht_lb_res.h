@@ -441,6 +441,10 @@ int ht_resize_pes(clht_t* hashtable, int is_increase, int by);
 const char* clht_type_desc();
 
 void clht_lock_initialization(clht_t *h);
+
+extern unsigned int clht_count_clflush;
+extern unsigned int clht_count_mfence;
+
 #ifdef __cplusplus
 }
 #endif

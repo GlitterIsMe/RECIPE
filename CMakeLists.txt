@@ -104,7 +104,7 @@ set(INDEX_FILES P-ART/Tree.cpp third-party/FAST_FAIR/btree.h
     third-party/CCEH/src/Level_hashing.cpp P-BwTree/src/bwtree.cpp
     third-party/WOART/woart.cpp P-CLHT/src/clht_lb_res.c P-CLHT/src/clht_gc.c
     P-CLHT/external/sspfd/sspfd.c P-CLHT/external/ssmem/src/ssmem.c
-    instruction_count/instruction_counter.c
+    instruction_count/instruction_counter.cpp
         )
 else()
 set(INDEX_FILES P-ART/Tree.cpp third-party/FAST_FAIR/btree.h third-party/CCEH/src/CCEH_MSB.cpp
@@ -112,7 +112,7 @@ set(INDEX_FILES P-ART/Tree.cpp third-party/FAST_FAIR/btree.h third-party/CCEH/sr
     P-BwTree/test/test_suite.cpp third-party/WOART/woart.cpp
     P-CLHT/src/clht_lb_res.c P-CLHT/src/clht_gc.c P-CLHT/external/sspfd/sspfd.c
     P-CLHT/external/ssmem/src/ssmem.c
-    instruction_count/instruction_counter.c
+    instruction_count/instruction_counter.cpp
         )
 endif()
 

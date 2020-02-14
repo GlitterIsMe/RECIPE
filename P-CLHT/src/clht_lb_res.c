@@ -35,11 +35,13 @@
 #include <stdbool.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
-#include "../../instruction_count/instruction_counter.h"
+#include <pthread.h>
 #include "clht_lb_res.h"
 
+unsigned int clht_count_clflush;
+unsigned int clht_count_mfence;
 
+pthread_mutex_t mutex;
 
 //#define CLHTDEBUG
 //#define CRASH_AFTER_SWAP_CLHT
@@ -128,7 +130,9 @@ static inline unsigned long read_tsc(void)
 }
 
 static inline void mfence() {
-    add_mfence();
+    pthread_mutex_lock(&mutex);
+    clht_count_mfence++;
+    pthread_mutex_unlock(&mutex);
     asm volatile("mfence":::"memory");
 }
 
@@ -138,7 +142,9 @@ static inline void clflush(char *data, int len, bool fence)
     if (fence)
         mfence();
     for(; ptr<data+len; ptr+=CACHE_LINE_SIZE){
-        add_clflush();
+        pthread_mutex_lock(&mutex);
+        clht_count_clflush++;
+        pthread_mutex_unlock(&mutex);
         unsigned long etsc = read_tsc() + (unsigned long)(write_latency*CPU_FREQ_MHZ/1000);
 #ifdef CLFLUSH
         asm volatile("clflush %0" : "+m" (*(volatile char *)ptr));
