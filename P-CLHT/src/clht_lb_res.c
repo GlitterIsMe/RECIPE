@@ -38,8 +38,10 @@
 #include <pthread.h>
 #include "clht_lb_res.h"
 
-unsigned int clht_count_clflush;
-unsigned int clht_count_mfence;
+#include "../../instruction_count/clht_counter.h"
+
+unsigned long clht_count_clflush;
+unsigned long clht_count_mfence;
 
 pthread_mutex_t mutex;
 

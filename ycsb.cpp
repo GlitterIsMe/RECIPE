@@ -19,11 +19,11 @@ using namespace std;
 #include "P-BwTree/src/bwtree.h"
 #include "clht.h"
 #include "ssmem.h"
-#include "clht_lb_res.h"
 
 #ifdef PERF_AND_COUNT
 #include "instruction_count/instruction_counter.h"
 #include "instruction_count/hw_events.h"
+#include "instruction_count/clht_counter.h"
 #endif
 
 #ifdef HOT
