@@ -11,7 +11,7 @@ unsigned int& count_mfence();*/
 extern unsigned int count_clflush;
 extern unsigned int count_mfence;
 
-extern void add_clflush();
-extern void add_mfence();
+void add_clflush();
+void add_mfence();
 
 #endif //RECIPE_INSTRUCTION_COUNTER_H
