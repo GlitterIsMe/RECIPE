@@ -130,6 +130,7 @@ long long print_event() {
 	}
 
 	cache_misses = read_cache_misses + write_cache_misses;
+    printf("%s: total cache Misses = %lld\n", __func__, cache_misses);
 	return cache_misses;
 }
 
