@@ -1145,8 +1145,8 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 #ifdef PERF_AND_COUNT
             system("free -h");
             print_event();
-            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
             close_perf_desc();
+            do_ioctl_call(PERF_EVENT_IOC_DISABLE);
             std::cout << "clflush: " << clht_count_clflush << "\n";
             std::cout << "mfence: " << clht_count_mfence << "\n";
 #endif

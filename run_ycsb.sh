@@ -7,6 +7,6 @@ for INDEX in fastfair masstree art hot levelhash clht; do
 done
 
 for INDEX in fastfair masstree art hot; do
-        echo "numactl --cpubind=1 ./build/ycsb $INDEX e randint uniform 1 > $INDEX-e.log"
-        #eval "numactl --cpubind=1 ./build/ycsb $INDEX e randint uniform 1 > $INDEX-e.log"
+        echo "numactl --cpubind=1 ./build/ycsb $INDEX e randint uniform 1"
+        #eval "numactl --cpubind=1 ./build/ycsb $INDEX e randint uniform 1"
 done
