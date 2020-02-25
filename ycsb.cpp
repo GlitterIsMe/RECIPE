@@ -24,6 +24,7 @@ using namespace std;
 #include "instruction_count/instruction_counter.h"
 #include "instruction_count/hw_events.h"
 #include "instruction_count/clht_counter.h"
+#include "instruction_count/cache_meter.h"
 #endif
 
 #ifdef HOT
@@ -1063,6 +1064,9 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 
         {
             // Load
+#ifdef PERF_AND_COUNT
+            CacheMeter cache(true);
+#endif
             auto starttime = std::chrono::system_clock::now();
             next_thread_id.store(0);
             auto func = [&]() {
@@ -1082,22 +1086,27 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
             };
 
             std::vector<std::thread> thread_group;
-
+#ifndef PERF_AND_COUNT
             for (int i = 0; i < num_thread; i++)
                 thread_group.push_back(std::thread{func});
 
             for (int i = 0; i < num_thread; i++)
                 thread_group[i].join();
+#else
+            func();
+#endif
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: load, %f ,ops/us\n", (LOAD_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
+            cache.Stop();
             std::cout << "clflush: " << clht_count_clflush << "\n";
             std::cout << "mfence: " << clht_count_mfence << "\n";
             system("free -h");
             system("sync && echo 3 > /proc/sys/vm/drop_caches");
             print_event();
             do_ioctl_call(PERF_EVENT_IOC_RESET);
+            cache.PrintL3CacheUtilization();
 #endif
         }
 
@@ -1105,6 +1114,9 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 
         {
             // Run
+#ifdef PERF_AND_COUNT
+            CacheMeter cache(true);
+#endif
             auto starttime = std::chrono::system_clock::now();
             next_thread_id.store(0);
             auto func = [&]() {
@@ -1134,21 +1146,27 @@ void ycsb_load_run_randint(int index_type, int wl, int kt, int ap, int num_threa
 
             std::vector<std::thread> thread_group;
 
+#ifndef PERF_AND_COUNT
             for (int i = 0; i < num_thread; i++)
                 thread_group.push_back(std::thread{func});
 
             for (int i = 0; i < num_thread; i++)
                 thread_group[i].join();
+#else
+            func();
+#endif
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now() - starttime);
             printf("Throughput: run, %f ,ops/us\n", (RUN_SIZE * 1.0) / duration.count());
 #ifdef PERF_AND_COUNT
+            cache.Stop();
             system("free -h");
             print_event();
             close_perf_desc();
             do_ioctl_call(PERF_EVENT_IOC_DISABLE);
             std::cout << "clflush: " << clht_count_clflush << "\n";
             std::cout << "mfence: " << clht_count_mfence << "\n";
+            cache.PrintL3CacheUtilization();
 #endif
         }
         clht_gc_destroy(hashtable);
