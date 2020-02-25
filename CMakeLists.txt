@@ -88,15 +88,18 @@ include_directories(P-HOT/libs/hot/commons/include P-HOT/libs/hot/rowex/include
     P-HOT/libs/idx/content-helpers/include P-HOT/libs/idx/utils/include P-HOT/libs/profile-lib/include)
 endif()
 
+
+find_library(JemallocLib jemalloc)
+find_library(TbbLib tbb)
+find_package (Threads)
+find_package(PAPI REQUIRED)
+
 include_directories(third-party/CCEH)
 include_directories(P-Masstree)
 include_directories(P-CLHT/include P-CLHT/external/include)
 include_directories(P-BwTree)
 include_directories(instruction_count)
-
-find_library(JemallocLib jemalloc)
-find_library(TbbLib tbb)
-find_package (Threads)
+include_directories(PAPI_INCLUDE_DIRS)
 
 if (HOT)
 set(INDEX_FILES P-ART/Tree.cpp third-party/FAST_FAIR/btree.h
@@ -118,7 +121,7 @@ endif()
 
 add_library(Indexes ${INDEX_FILES})
 
-target_link_libraries(Indexes ${TbbLib} ${JemallocLib} ${CMAKE_THREAD_LIBS_INIT} pthread)
+target_link_libraries(Indexes ${TbbLib} ${JemallocLib} ${CMAKE_THREAD_LIBS_INIT} ${PAPI_LIBRARIES} pthread)
 
 set(YCSB_TEST ycsb.cpp)
 add_executable(ycsb ${YCSB_TEST})
